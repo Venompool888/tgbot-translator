@@ -1,0 +1,12 @@
+{
+  "123456": {
+    "targetlang": "English",
+    "motherlang": "简体中文",
+    "otherlang": "俄语"
+  },
+  "123456789": {
+    "targetlang": "English",
+    "motherlang": "俄语",
+    "otherlang": "китайский язык"
+  }
+}
