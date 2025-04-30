@@ -17,12 +17,12 @@ function loadUserConfig() {
   return JSON.parse(fs.readFileSync(userConfigPath, 'utf-8'));
 }
 
-const userConfig = loadUserConfig();
 
 // 处理所有文本消息
 bot.on('text', async (ctx) => {
   const userId = ctx.from.id;
   const text = ctx.message.text;
+  const userConfig = loadUserConfig();
 
   if (!userConfig[userId]) {
     return ctx.reply('❌ 你没有权限使用本机器人。\n❌ You do not have permission to use this bot.\n❌ У вас нет прав на использование этого бота.');
@@ -51,9 +51,10 @@ bot.action('translate_otherlang', async (ctx) => {
   try {
     await ctx.answerCbQuery();
     const userId = ctx.from.id;
+    const userConfig = loadUserConfig();
     
     if (!userConfig[userId]) {
-      return ctx.reply('❌ 你没有权限使用本机器人。');
+      return ctx.reply('❌ 你没有权限使用本机器人。\n❌ You do not have permission to use this bot.\n❌ У вас нет прав на использование этого бота.');
     }
 
     // 获取原始消息文本
