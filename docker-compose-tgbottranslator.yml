@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  tgbot-translator:
+    build: .
+    container_name: tgbot-translator
+    environment:
+      - BOT_TOKEN=你的实际机器人token
+      - AI_API_KEY=你的API密钥
+      - AI_API_ENDPOINT=https://api.x.ai/v1/chat/completions
+    volumes:
+      - ./userConfig.json:/app/userConfig.json:ro
+    restart: unless-stopped
