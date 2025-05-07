@@ -16,7 +16,7 @@
 ## 👨‍🎓部署教程
 ### 准备内容
 - Telegram Bot Token（[✈️ 如何获得 telegram-bot-token？](https://github.com/Venompool888/CloudflareDNS-TGBot/tree/main?tab=readme-ov-file#%EF%B8%8F-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97-telegram-bot-token)）
-- AI API （[🤖🔩支持的 AI API 平台](https://github.com/Venompool888/tgbot-translator/blob/main/README.md#%E6%94%AF%E6%8C%81%E7%9A%84-ai-api-%E5%B9%B3%E5%8F%B0-%E8%BF%99%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%E5%AE%8C%E5%85%A8%E7%94%B1-gpt-%E7%94%9F%E6%88%90-%E7%9B%AE%E5%89%8D%E5%8F%AA%E6%B5%8B%E8%AF%95%E4%BA%86-openai-%E4%BB%A5%E5%8F%8A-grok)）
+- AI API （符合OpenAI接口规范标准的理论上都可以，[🤖🔩支持的 AI API 平台](https://github.com/Venompool888/tgbot-translator/blob/main/README.md#%E6%94%AF%E6%8C%81%E7%9A%84-ai-api-%E5%B9%B3%E5%8F%B0-%E8%BF%99%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%E5%AE%8C%E5%85%A8%E7%94%B1-gpt-%E7%94%9F%E6%88%90-%E7%9B%AE%E5%89%8D%E5%8F%AA%E6%B5%8B%E8%AF%95%E4%BA%86-openai-%E4%BB%A5%E5%8F%8A-grok)）
 ### ⬇️下载 docker-compose-tgbottranslator.yml
 下面的命令会在你的文件夹（一般是 `root`）下创建一个名为`tgbot-translator`的📂文件夹，并且在里面存放`docker-compose-tgbottranslator.yml`以及`userConfig.json`:
 ```
