@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   tgbot-translator:
-    build: .
+    image: venompool/tgbot-translator
     container_name: tgbot-translator
     environment:
       - BOT_TOKEN= 你的tg bot token
@@ -12,3 +12,7 @@ services:
     volumes:
       - ./userConfig.json:/app/userConfig.json:ro
     restart: unless-stopped
+
+networks:
+  tgnet:
+    driver: bridge
