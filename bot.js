@@ -1,10 +1,12 @@
 const { Telegraf } = require('telegraf');
 const { translateWithGrok, translateOtherLangWithGrok } = require('./translate');
 const fs = require('fs');
+// 从环境变量读取 token
+const botToken = process.env.BOT_TOKEN;
 
 const sessions = {}; // 存储会话数据
 
-const bot = new Telegraf('删除中文换成你的bot token'); // 替换为你的Bot Token
+const bot = new Telegraf(botToken); 
 
 const userConfigPath = './userConfig.json';
 
