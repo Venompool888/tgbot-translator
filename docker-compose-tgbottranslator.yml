@@ -5,10 +5,10 @@ services:
     image: venompool/tgbot-translator
     container_name: tgbot-translator
     environment:
-      - BOT_TOKEN= 你的tg bot token
-      - AI_API_KEY= 你的 ai api key
-      - AI_API_ENDPOINT= 你的 ai 接口（需要符合 OpenAI 接口规范）
-      - AI_MODEL= 模型名字
+      - BOT_TOKEN=你的tg bot token
+      - AI_API_KEY=你的 ai api key
+      - AI_API_ENDPOINT=你的 ai 接口（需要符合 OpenAI 接口规范）
+      - AI_MODEL=模型名字
     volumes:
       - ./userConfig.json:/app/userConfig.json:ro
     restart: unless-stopped
