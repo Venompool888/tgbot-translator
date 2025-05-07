@@ -3,6 +3,7 @@ const axios = require('axios');
 async function translateWithGrok(text, targetLang, motherLang) {
   const apiKey = process.env.AI_API_KEY; // 从环境变量读取 API 密钥
   const endpoint = process.env.AI_API_ENDPOINT;
+  const model = process.env.AI_MODEL;
 
 
   const messages = [
@@ -24,7 +25,7 @@ async function translateWithGrok(text, targetLang, motherLang) {
     const response = await axios.post(
       endpoint,
       {
-        model: 'grok-3-fast-beta',
+        model: model,
         messages: messages,
       },
       {
