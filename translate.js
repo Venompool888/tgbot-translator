@@ -1,8 +1,9 @@
 const axios = require('axios');
 
 async function translateWithGrok(text, targetLang, motherLang) {
-  const apiKey = '删除中文替换为你的api key'; // 替换为您的 API 密钥
-  const endpoint = 'https://api.x.ai/v1/chat/completions';
+  const apiKey = process.env.GROK_API_KEY; // 从环境变量读取 API 密钥
+  const endpoint = process.env.GROK_API_ENDPOINT;
+
 
   const messages = [
     {
