@@ -3,10 +3,10 @@
 一个基于 Telegraf 的 Telegram 翻译机器人，支持多语言翻译，并通过 Docker 部署。
 ## 📚 目录
 
-- [功能介绍](#功能介绍)
-- [AI 翻译机器人工作原理](#ai-翻译机器人工作原理)
-- [👨‍🎓部署教程](#部署教程)
-- [🌟 效果展示](#效果展示)
+- [功能介绍](https://github.com/Venompool888/tgbot-translator#%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D)
+- [AI 翻译机器人工作原理](https://github.com/Venompool888/tgbot-translator#ai-%E7%BF%BB%E8%AF%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86)
+- [👨‍🎓部署教程](https://github.com/Venompool888/tgbot-translator#%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B)
+- [🌟 效果展示](https://github.com/Venompool888/tgbot-translator#-%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA)
 
 ---
 
