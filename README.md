@@ -62,7 +62,7 @@ docker compose -f docker-compose-tgbottranslator.yml up -d
 ![image](https://github.com/user-attachments/assets/a4046640-4bea-4f5f-b104-fc5fde6a3a40)
 
 
-## 支持的 AI API 平台 (这部分内容完全由 GPT 生成, 目前只测试了 OpenAI 以及 Grok)
+## 🤖🔩支持的 AI API 平台 (这部分内容完全由 GPT 生成, 目前只测试了 OpenAI 以及 Grok)
 
 当前项目支持以下兼容 OpenAI Chat Completions 标准接口的 AI 平台：
 
