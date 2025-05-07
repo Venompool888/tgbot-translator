@@ -53,3 +53,5 @@ docker compose -f docker-compose-tgbottranslator.yml up -d
 
 ```
 ## 🌟 效果展示
+![image](https://github.com/user-attachments/assets/a4046640-4bea-4f5f-b104-fc5fde6a3a40)
+
