@@ -14,10 +14,17 @@
 ---
 
 ## 部署教程
+### 下载 docker-compose-tgbottranslator.yml
+```
+mkdir -p tgbot-translator && cd tgbot-translator && wget -O docker-compose-tgbottranslator.yml 'https://raw.githubusercontent.com/Venompool888/tgbot-translator/refs/heads/main/docker-compose-tgbottranslator.yml' && wget -O 'https://raw.githubusercontent.com/Venompool888/tgbot-translator/refs/heads/main/userConfig.json'
+```
+### 添加好相应环境变量 
+![image](https://github.com/user-attachments/assets/1413c4e7-cbe2-43ee-9a38-f3c58f4e77d7)
 
-## 配置文件说明
 
-项目根目录需要有一个 `userConfig.json`，用于配置不同用户的翻译偏好。示例：
+### 编辑用户配置文件`userConfig.json`
+
+用于配置不同用户的翻译偏好。示例：
 
 ```json
 {
