@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 async function translateWithGrok(text, targetLang, motherLang) {
-  const apiKey = process.env.GROK_API_KEY; // 从环境变量读取 API 密钥
-  const endpoint = process.env.GROK_API_ENDPOINT;
+  const apiKey = process.env.AI_API_KEY; // 从环境变量读取 API 密钥
+  const endpoint = process.env.AI_API_ENDPOINT;
 
 
   const messages = [
