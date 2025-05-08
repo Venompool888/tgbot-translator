@@ -48,7 +48,7 @@
 ### ⬇️下载 docker-compose-tgbottranslator.yml
 下面的命令会在你的文件夹（一般是 `root`）下创建一个名为`tgbot-translator`的📂文件夹，并且在里面存放`docker-compose-tgbottranslator.yml`以及`userConfig.json`:
 ```
-mkdir -p tgbot-translator && cd tgbot-translator && wget -O docker-compose-tgbottranslator.yml 'https://raw.githubusercontent.com/Venompool888/tgbot-translator/refs/heads/main/docker-compose-tgbottranslator.yml' && wget -O userConfig.json 'https://raw.githubusercontent.com/Venompool888/tgbot-translator/refs/heads/main/userConfig.json'
+mkdir -p tgbot-translator && cd tgbot-translator && wget -O docker-compose.yml 'https://raw.githubusercontent.com/Venompool888/tgbot-translator/refs/heads/main/docker-compose.yml' && wget -O userConfig.json 'https://raw.githubusercontent.com/Venompool888/tgbot-translator/refs/heads/main/userConfig.json'
 ```
 ### ✨添加好相应环境变量
 ![image](https://github.com/user-attachments/assets/1413c4e7-cbe2-43ee-9a38-f3c58f4e77d7)
