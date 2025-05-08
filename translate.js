@@ -44,9 +44,10 @@ async function translateWithGrok(text, targetLang, motherLang) {
   }
 };
 
-async function translateOtherLangWithGrok(text, otherLang) {
-  const apiKey = '删除中文填上你的api key'; // 替换为您的 API 密钥
-  const endpoint = 'https://api.x.ai/v1/chat/completions';
+async function translateOtherLangWithGrok(text, targetLang, firstResult) {
+  const apiKey = process.env.AI_API_KEY; // 从环境变量读取 API 密钥
+  const endpoint = process.env.AI_API_ENDPOINT;
+  const model = process.env.AI_MODEL;
 
   const messages = [
     {
@@ -59,8 +60,12 @@ async function translateOtherLangWithGrok(text, otherLang) {
     },
     {
       role: 'user',
-      content: `翻译成${otherLang}：${text}`,
-    },
+      content: `
+原文是：「${text}」  
+已有翻译为：「${firstResult}」  
+请基于这两者，将其准确自然地翻译成「${targetLang}」。
+    `.trim()
+    }
   ];
 
   try {
