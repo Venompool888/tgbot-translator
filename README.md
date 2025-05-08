@@ -9,7 +9,11 @@
 - [🌟 效果展示](https://github.com/Venompool888/tgbot-translator#-%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA)
 
 ---
-
+## 更新并重启
+```
+docker compose down && docker compose pull && docker compose up -d
+```
+---
 ## 功能介绍
 
 - 🌍 自动识别并翻译指定语言
