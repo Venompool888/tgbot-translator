@@ -81,7 +81,7 @@ mkdir -p tgbot-translator && cd tgbot-translator && wget -O docker-compose.yml '
 
 ### 启动🐳Docker
 ```
-docker compose -f docker-compose-tgbottranslator.yml up -d
+docker compose up -d
 
 
 
