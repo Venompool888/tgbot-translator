@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const { translateWithGrok, translateOtherLangWithGrok } = require('./translate');
 const fs = require('fs');
@@ -35,68 +36,58 @@ bot.on('text', async (ctx) => {
   const otherLang = userConfig[userId].otherlang;
 
   const result = await translateWithGrok(text, targetLang, motherLang);
-  
-  // 存储翻译结果到会话
-  sessions[userId] = result;
 
-  await ctx.reply(`${result}`, {
+  // 存储
+  sessions[userId] = {
+    text: text,       // 原始发来的文字
+    result: result    // 翻译出来的结果
+  };
+  
+
+  // 构建按钮
+  const buttons = [];
+
+  if (otherLang && otherLang.length > 0) {
+    otherLang.forEach((lang, index) => {
+      buttons.push([{ text: `Translate to ${lang}`, callback_data: `translate_${lang}` }]);
+    });
+  }
+
+  await ctx.reply(`\`${result}\``, { parse_mode: 'MarkdownV2' ,
     reply_markup: {
-      inline_keyboard: [
-        [{ text: `Translate to ${otherLang}`, callback_data: `translate_otherlang` }]
-      ]
+      inline_keyboard: buttons,
     }
   });
 });
 
 // 翻译成其他语言
-bot.action('translate_otherlang', async (ctx) => {
+bot.action(/^translate_(.+)$/, async (ctx) => {
   try {
     await ctx.answerCbQuery();
     const userId = ctx.from.id;
     const userConfig = loadUserConfig();
     
-    if (!userConfig[userId]) {
-      return ctx.reply('❌ 你没有权限使用本机器人。\n❌ You do not have permission to use this bot.\n❌ У вас нет прав на использование этого бота.');
+    const targetLang = ctx.match[1]; // 正则取出需要翻译的目标语言，比如 ja, fr, de
+    const text = sessions[userId].text; // 获取会话中存储的原文
+    const firstResult = sessions[userId].result; // 获取会话中存储的翻译结果
+    
+
+    if (!text) {
+      return ctx.reply('⚠️ 没有找到原始翻译内容，请重新发送文本。');
     }
 
-    // 获取原始消息文本
-    const message = ctx.callbackQuery.message;
-    if (!message || !message.text) {
-      return ctx.reply('⚠️ 无法获取原始消息');
-    }
-
-    const text = message.text.split('\n')[0]; // 获取第一行文本
-    const otherLang = userConfig[userId].otherlang;
-
-    if (!otherLang) {
-      return ctx.reply('请先使用 /set-default-lang 设置目标语言');
-    }
-
-    const result = await translateOtherLangWithGrok(text, otherLang);
-
-    // 存储翻译结果到会话
-    sessions[userId] = result;
+    const result = await translateOtherLangWithGrok(text, targetLang, firstResult);
 
     
-    await ctx.reply(`${result}`);
+
+    
+    await ctx.reply(`\`${result}\``, { parse_mode: 'MarkdownV2' });
   } catch (error) {
     console.error('Error in translate_otherlang:', error);
     await ctx.reply('⚠️ 翻译过程中出现错误，请稍后重试');
   }
 });
 
-// 复制翻译结果
-bot.action('copy', async (ctx) => {
-  const userId = ctx.from.id;
-  await ctx.answerCbQuery();
-
-  const result = sessions[userId];
-  if (!result) {
-    return ctx.reply('⚠️ 没有可复制的翻译结果。请先发送文本进行翻译。');
-  }
-
-  await ctx.reply(`📋 以下是你要复制的翻译内容：\n\n${result}`);
-});
 
 
 bot.launch();
