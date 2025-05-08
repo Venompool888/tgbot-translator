@@ -11,7 +11,8 @@
     "axios": "^1.9.0",
     "franc": "^5.0.0",
     "langs": "^2.0.0",
-    "telegraf": "^4.16.3"
+    "telegraf": "^4.16.3",
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
