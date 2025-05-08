@@ -64,12 +64,12 @@ mkdir -p tgbot-translator && cd tgbot-translator && wget -O docker-compose-tgbot
     "name":"ikun",
     "targetlang": "English",
     "motherlang": "简体中文",
-    "otherlang": "俄语"
+    "otherlang": ["俄语","德语","法语"]
   },
   "123456789": {
     "targetlang": "English",
     "motherlang": "俄语",
-    "otherlang": "中文"
+    "otherlang": ["китайский язык"]
   }
 }
 ```
