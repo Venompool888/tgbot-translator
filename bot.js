@@ -88,6 +88,57 @@ bot.action(/^translate_(.+)$/, async (ctx) => {
   }
 });
 
+bot.on('inline_query', async (ctx) => {
+  const query = ctx.inlineQuery.query?.trim();
+  if (!query) return;
+
+  const userId = ctx.from.id;
+  const userConfig = loadUserConfig();
+
+  // 权限检查（仅白名单用户可用）
+  if (!userConfig[userId]) {
+    const noAccessText = [
+      '❌ 你没有权限使用本机器人。',
+      '❌ You do not have permission to use this bot.',
+      '❌ У вас нет прав на использование этого бота.'
+    ].join('\n');
+
+    return ctx.answerInlineQuery([
+      {
+        type: 'article',
+        id: 'no_permission',
+        title: '🚫 权限不足',
+        description: '请联系管理员添加白名单。',
+        input_message_content: {
+          message_text: noAccessText
+        }
+      }
+    ], { cache_time: 0 });
+  }
+
+
+  const targetLang = userConfig[userId].targetlang;
+  const motherLang = userConfig[userId].motherlang;
+  const otherLang = userConfig[userId].otherlang;
+
+  // 调用你的翻译函数
+  const result = await translateWithGrok(query, targetLang, motherLang); 
+
+  return ctx.answerInlineQuery([
+    {
+      type: 'article',
+      id: '1',
+      title: '翻译结果',
+      description: result,
+      input_message_content: {
+        message_text: result
+      }
+    }
+  ], {
+    cache_time: 0 // 不缓存结果
+  });
+});
+
 
 
 bot.launch();
