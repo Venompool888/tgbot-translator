@@ -1,13 +1,32 @@
 {
-  "tg_user_id": {
-    "name":"ikun",
+  "2126737597": {
+    "name": "vp",
     "targetlang": "English",
     "motherlang": "简体中文",
-    "otherlang": ["俄语", "德语", "法语"]
+    "otherlang": ["俄语"]
   },
-  "123456789": {
+  "883824947": {
+    "name": "Angelina",
     "targetlang": "English",
     "motherlang": "俄语",
-    "otherlang": ["中文"]
+    "otherlang": ["китайский язык"]
+  },
+  "7145053279": {
+    "name": "Sabrina",
+    "targetlang": "English",
+    "motherlang": "俄语",
+    "otherlang": ["китайский язык"]
+  },
+  "7290094467": {
+    "name": "ikun",
+    "targetlang": "English",
+    "motherlang": "简体中文",
+    "otherlang": ["俄语"]
+  },
+  "7151323331":{
+    "name": "berserk",
+    "targetlang": "English",
+    "motherlang": "简体中文",
+    "otherlang": ["俄语"]
   }
 }
