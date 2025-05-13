@@ -13,7 +13,7 @@ async function translateWithGrok(text, targetLang, motherLang) {
     },
     {
       role: 'user',
-      content: `我的母语是${motherLang},请翻译成${targetLang}:${text}`,
+      content: `我的母语是${motherLang},请翻译成${targetLang}。如果这段话不是母语，请翻译成我的母语:${text}`,
     },
   ];
 
