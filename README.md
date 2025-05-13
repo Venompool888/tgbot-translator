@@ -11,7 +11,7 @@
 ---
 ## 更新并重启
 ```
-docker compose down && docker compose pull && docker compose up -d
+cd tgbot-translator && docker compose down && docker compose pull && docker compose up -d
 ```
 ---
 ## 功能介绍
