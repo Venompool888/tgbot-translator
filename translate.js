@@ -5,15 +5,11 @@ async function translateWithGrok(text, targetLang, motherLang) {
   const endpoint = process.env.AI_API_ENDPOINT;
   const model = process.env.AI_MODEL;
 
-
+ console.log('翻译原文：',text)
   const messages = [
     {
       role: 'system',
-      content: `
-      你是一个专业的翻译助手，具备母语级的中英俄文语言能力。
-      你是一个专业的中英俄互译助手，具备母语级的中英俄文语言能力。
-      请将用户提供的文本进行精准翻译，保持原意不变，同时语言表达自然、地道，符合目标语言的语言习惯和文化背景。
-      不要逐字直译，必要时可对句子结构进行优化。请直接给出翻译结果，不需要解释或附加说明。`,
+      content: `你是一个专业的翻译助手，具备多语言翻译能力，能够在任意语言之间进行高质量翻译。请将用户提供的文本准确翻译为目标语言，保持原意不变，语言表达自然、地道，符合目标语言的语言习惯和文化背景。不要逐字直译，必要时可优化句子结构。请直接返回翻译结果，无需任何解释或附加说明。`,
     },
     {
       role: 'user',
@@ -37,6 +33,8 @@ async function translateWithGrok(text, targetLang, motherLang) {
     );
 
     const translatedText = response.data.choices[0].message.content;
+    console.log('翻译结果:',translatedText)
+  
     return translatedText;
   } catch (error) {
     console.error('翻译失败:', error.response ? error.response.data : error.message);
@@ -52,11 +50,7 @@ async function translateOtherLangWithGrok(text, targetLang, firstResult) {
   const messages = [
     {
       role: 'system',
-      content: `
-      你是一个专业的翻译助手，具备母语级的中英俄文语言能力。
-      你是一个专业的中英俄互译助手，具备母语级的中英俄文语言能力。
-      请将用户提供的文本进行精准翻译，保持原意不变，同时语言表达自然、地道，符合目标语言的语言习惯和文化背景。
-      不要逐字直译，必要时可对句子结构进行优化。请直接给出翻译结果，不需要解释或附加说明。`,
+      content: `你是一个全语言翻译助手，请准确、自然地翻译用户提供的句子，不要解释`,
     },
     {
       role: 'user',
