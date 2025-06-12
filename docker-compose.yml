@@ -2,16 +2,22 @@ version: '3.8'
 
 services:
   tgbot-translator:
+    # ✅ 镜像地址：默认使用 Docker Hub 镜像（docker.io/venompool/tgbot-translator）
+    # 👉 如果你想使用 GitHub Container Registry 镜像，请将下行改为：
+    # image: ghcr.io/venompool/tgbot-translator:latest
     image: venompool/tgbot-translator
     container_name: tgbot-translator
+
     environment:
-      - BOT_TOKEN=你的tg bot token
-      - AI_API_KEY=你的 ai api key
-      - AI_API_ENDPOINT=你的 ai 接口（需要符合 OpenAI 接口规范）
-      - AI_MODEL=模型名字
+      - BOT_TOKEN=你的tg bot token                # Telegram bot 的令牌
+      - AI_API_KEY=你的 ai api key                # OpenAI 或其他兼容 API 的密钥
+      - AI_API_ENDPOINT=https://api.openai.com/v1/chat/completions  # 接口地址（符合 OpenAI 标准）
+      - AI_MODEL=gpt-4o                           # 模型名称（如 gpt-3.5-turbo、gpt-4o 等）
+
     volumes:
-      - ./userConfig.json:/app/userConfig.json:ro
-    restart: unless-stopped
+      - ./userConfig.json:/app/userConfig.json:ro  # 映射配置文件，只读挂载
+
+    restart: unless-stopped                        # 容器异常退出时自动重启
 
 networks:
   tgnet:
