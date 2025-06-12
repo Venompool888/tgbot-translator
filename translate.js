@@ -10,11 +10,11 @@ async function translateWithGrok(text, targetLang, motherLang) {
   const messages = [
     {
       role: 'system',
-      content: `你是专业的多语言翻译助手。用户母语是${motherLang},对方说的是${targetLang}，翻译结果保持原文的情绪、语气、粗俗程度，表达自然地道，符合目标语言习惯。保留专有名词、代码和格式不变。只返回翻译结果，不要解释或附加说明。`,
+      content: `\n你是一个专业的实时翻译助手，用户会给你发信息，可能是母语（${motherLang}），也可能是其他任意外语。\n\n请遵守以下翻译规则：\n1. 如果内容是 ${motherLang}，请翻译成 ${targetLang}；\n2. 如果内容是任何其他语言（无论是哪种外语），都翻译成 ${motherLang}；\n3. 翻译时要自然、地道、保留原文的语气、情绪和粗俗程度；\n4. 保留专有名词、代码、格式和标点；\n5. 严格只返回翻译结果，不要原文，不要解释，不要输出语言名称。\n    `.trim(),
     },
     {
       role: 'user',
-      content: `翻译：${text}`,
+      content: `${text}`,
     },
   ];
 
