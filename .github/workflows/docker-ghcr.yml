@@ -10,9 +10,14 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install build dependencies (for npm native modules)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 make g++
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -24,10 +29,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Pull base image
+        run: docker pull node:20-bullseye || true
+
       - name: Build and Push to GHCR
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: ghcr.io/venompool888/tgbot-translator:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
 
