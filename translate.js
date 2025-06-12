@@ -14,7 +14,7 @@ async function translateWithGrok(text, targetLang, motherLang) {
     },
     {
       role: 'user',
-      content: `${text}`,
+      content: `翻译：${text}`,
     },
   ];
 
