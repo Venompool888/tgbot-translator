@@ -13,6 +13,11 @@ services:
       - AI_API_KEY=你的 ai api key                # OpenAI 或其他兼容 API 的密钥
       - AI_API_ENDPOINT=https://api.openai.com/v1/chat/completions  # 接口地址（符合 OpenAI 标准）
       - AI_MODEL=gpt-4o                           # 模型名称（如 gpt-3.5-turbo、gpt-4o 等）
+      - TTS_API_KEY=你的tts api key               # TTS 服务的 API 密钥
+      - TTS_API_ENDPOINT=https://api.openai.com/v1/audio/speech    # TTS 接口地址
+      - TTS_VOICE=nova                            # TTS 语音风格（如 nova, alloy, shimmer 等）
+      - TTS_MODEL=tts-1-hd                        # TTS 模型（如 tts-1, tts-1-hd 等）
+      - TTS_ENABLE=true                           # 是否启用 TTS 语音功能
 
     volumes:
       - ./userConfig.json:/app/userConfig.json:ro  # 映射配置文件，只读挂载
