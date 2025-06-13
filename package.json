@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^1.9.0",
     "dotenv": "^16.0.0",
+    "ffmpeg-static": "^5.1.0",
     "franc": "^5.0.0",
     "langs": "^2.0.0",
     "telegraf": "^4.16.3"

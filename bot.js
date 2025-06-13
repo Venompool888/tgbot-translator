@@ -193,6 +193,8 @@ bot.action('create_audio', async (ctx) => {
     fs.unlinkSync(oggPath);
   } catch (error) {
     console.error('Error in create_audio:', error);
+    const userConfig = loadUserConfig();
+    const motherLang = userConfig[userId]?.motherlang || 'English';
     await ctx.reply(getLangText('audio_error', motherLang));
   }
 });

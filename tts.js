@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
+const ffmpegPath = require('ffmpeg-static');
 
 // 从环境变量读取 TTS API KEY 和 ENDPOINT
 require('dotenv').config(); // 加载 .env 文件
@@ -44,7 +45,7 @@ async function textToMp3(text, outputFile, voice, model) {
 // mp3 转 ogg 文件，返回 ogg 文件路径
 function mp3ToOgg(mp3File, oggFile) {
   try {
-    execSync(`ffmpeg -y -i ${mp3File} -c:a libopus ${oggFile}`);
+    execSync(`${ffmpegPath} -y -i ${mp3File} -c:a libopus ${oggFile}`);
     return oggFile;
   } catch (ffmpegErr) {
     console.error('ffmpeg 转换失败:', ffmpegErr.message);
