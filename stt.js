@@ -6,6 +6,7 @@ const FormData = require('form-data');
 const fs = require('fs');
 const { exec } = require('child_process');
 const path = require('path');
+const ffmpegPath = require('ffmpeg-static');
 
 /**
  * 使用 ffmpeg 将 OGG 文件转换为 MP3 格式
@@ -15,7 +16,7 @@ const path = require('path');
  */
 function convertOggToMp3(inputPath, outputPath) {
   return new Promise((resolve, reject) => {
-    const command = `ffmpeg -i "${inputPath}" -codec:a libmp3lame "${outputPath}"`;
+    const command = `"${ffmpegPath}" -i "${inputPath}" -codec:a libmp3lame "${outputPath}"`;
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error(`转换失败: ${stderr}`);
