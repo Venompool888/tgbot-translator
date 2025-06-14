@@ -55,8 +55,8 @@ async function processOggToText(oggPath, outputTextPath) {
     formData.append('file', fs.createReadStream(mp3Path));
     formData.append('model', 'whisper-1'); // 使用 OpenAI Whisper 模型
 
-    console.log('正在发送请求到 OpenAI STT API...');
-    const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
+    console.log('正在发送请求到 STT API ENDPPOINT...');
+    const response = await axios.post(process.env.STT_API_ENDPOINT, formData, {
       headers: {
         'Authorization': `Bearer ${process.env.STT_API_KEY}`,
         ...formData.getHeaders(),
