@@ -2,7 +2,10 @@ require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const { translateWithGrok, translateOtherLangWithGrok } = require('./translate');
 const { textToMp3, mp3ToOgg } = require('./tts');
+const { processOggToText } = require('./stt');
 const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
 // 从环境变量读取 token
 const botToken = process.env.BOT_TOKEN;
 
@@ -85,6 +88,20 @@ function getLangText(key, lang, param) {
       '俄语': 'Результат перевода',
       'Russian': 'Результат перевода'
     },
+    '文本生成中': {
+      '简体中文': '文本生成中，请稍候...',
+      '英文': 'Generating text, please wait...',
+      'English': 'Generating text, please wait...',
+      '俄语': 'Генерация текста, пожалуйста, подождите...',
+      'Russian': 'Генерация текста, пожалуйста, подождите...'
+    },
+    '语音转换结果': {
+      '简体中文': '语音转换结果',
+      '英文': 'Voice conversion result',
+      'English': 'Voice conversion result',
+      '俄语': 'Результат преобразования голоса',
+      'Russian': 'Результат преобразования голоса'
+    },
     // ...可扩展更多
   };
   return dict[key]?.[lang] || dict[key]?.['English'] || key;
@@ -127,7 +144,9 @@ bot.on('text', async (ctx) => {
     });
   }
 
-  await ctx.reply(`\`${result}\``, { parse_mode: 'MarkdownV2' ,
+  // 回复翻译结果（分两条消息，先标题再内容）
+  await ctx.reply(`\`${getLangText('translate_result', motherLang)}:\``, { parse_mode: 'MarkdownV2' });
+  await ctx.reply(`\`\`\`\n${result}\n\`\`\``, { parse_mode: 'MarkdownV2',
     reply_markup: {
       inline_keyboard: buttons,
     }
@@ -141,6 +160,7 @@ bot.action(/^translate_(.+)$/, async (ctx) => {
     const userId = ctx.from.id;
     const userConfig = loadUserConfig();
     
+    const motherLang = userConfig[userId]?.motherlang || 'English';
     const targetLang = ctx.match[1]; // 正则取出需要翻译的目标语言，比如 ja, fr, de
     const text = sessions[userId].text; // 获取会话中存储的原文
     const firstResult = sessions[userId].result; // 获取会话中存储的翻译结果
@@ -157,18 +177,106 @@ bot.action(/^translate_(.+)$/, async (ctx) => {
     const buttons = [];
     // 仅在 TTS_ENABLE=true 时显示 create audio 按钮
     if (process.env.TTS_ENABLE === 'true') {
-      buttons.push([{ text: getLangText('create_audio', motherLang), callback_data: 'create_audio' }]);
+      buttons.push([{ text: getButtonText('create_audio', motherLang), callback_data: 'create_audio' }]);
     }
-    await ctx.reply(`\`${otherLangResult}\``, { parse_mode: 'MarkdownV2',
+
+    // 先回复标题
+    await ctx.reply(`\`${getLangText('translate_result', motherLang)}:\``, { parse_mode: 'MarkdownV2' });
+    // 再回复内容和按钮
+    await ctx.reply(`\`\`\`\n${otherLangResult}\n\`\`\``, { 
+      parse_mode: 'MarkdownV2',
       reply_markup: {
-        inline_keyboard: buttons,
+      inline_keyboard: buttons,
       }
     });
+
   } catch (error) {
     console.error('Error in translate_otherlang:', error);
     await ctx.reply(getLangText('translate_error', motherLang));
   }
 });
+
+// 处理用户发来的语音消息
+bot.on('voice', async (ctx) => {
+  try {
+    const fileId = ctx.message.voice.file_id;
+    const fileLink = await ctx.telegram.getFileLink(fileId);
+
+    const oggPath = path.join(__dirname, 'input.ogg');
+    const outputTextPath = path.join(__dirname, 'output.txt');
+
+    // 多语言提示，回复用户文本生成中。。。
+    const userId = ctx.from.id;
+    const userConfig = loadUserConfig();
+    const motherLang = userConfig[userId]?.motherlang || 'English';
+    const targetLang = userConfig[userId]?.targetlang || 'English';
+    await ctx.reply(getLangText('文本生成中', motherLang));
+    // 下载语音文件
+    const response = await axios.get(fileLink.href, { responseType: 'arraybuffer' });
+    fs.writeFileSync(oggPath, response.data);
+
+    // 转换语音文件并处理
+    await processOggToText(oggPath, outputTextPath);
+
+    // 读取转换后的文本
+    const text = fs.readFileSync(outputTextPath, 'utf8');
+
+    // 回复用户转换结果（多语言）
+    await ctx.reply(`\`${getLangText('语音转换结果', motherLang)}:\``, { parse_mode: 'MarkdownV2' });
+    await ctx.reply(`\`\`\`\n${text}\n\`\`\``, { parse_mode: 'MarkdownV2' });
+
+    // 翻译转换出来的文本
+    const result = await translateWithGrok(text, targetLang, motherLang);
+    // 回复用户翻译结果
+    await ctx.reply(`\`${getLangText('translate_result', motherLang)}:\``, { parse_mode: 'MarkdownV2' });
+    await ctx.reply(`\`\`\`\n${result}\n\`\`\``, { parse_mode: 'MarkdownV2' });
+
+    // 存储
+    sessions[userId] = {
+      text: text,       // 原始发来的文字
+      result: result    // 翻译出来的结果
+    };
+
+    // 清理临时文件
+    fs.unlinkSync(oggPath);
+    fs.unlinkSync(outputTextPath);
+
+    // 跳转到“创建音频”，create_audio 按钮
+    await ctx.reply(getLangText('creating_audio', motherLang));
+    const mp3Path = `./audio/${userId}.mp3`;
+    const audioOggPath = `./audio/${userId}.ogg`;
+    const voice = userConfig[userId].tts_voice || 'nova';
+    const model = userConfig[userId].tts_model || 'tts-1-hd';
+    await textToMp3(result, mp3Path, voice, model);
+    mp3ToOgg(mp3Path, audioOggPath);
+
+    // 构建“翻译成其他语言”按钮
+    const buttons = [];
+    if (userConfig[userId]?.otherlang && userConfig[userId].otherlang.length > 0) {
+      userConfig[userId].otherlang.forEach((lang) => {
+      buttons.push([{ text: getButtonText('translate_to', motherLang)(lang), callback_data: `translate_${lang}` }]);
+      });
+    }
+
+    // 发送语音消息
+    // 发送带按钮的消息，按钮会显示在语音消息下方
+    if (buttons.length > 0) {
+      await ctx.replyWithVoice({ source: audioOggPath }, {
+      reply_markup: {
+        inline_keyboard: buttons,
+      }
+      });
+    }
+    // 清理临时文件
+    fs.unlinkSync(mp3Path);
+    fs.unlinkSync(audioOggPath);
+
+  } catch (error) {
+    console.error('处理失败:', error);
+    await ctx.reply('抱歉，处理语音消息时发生错误。');
+  }
+});
+
 
 // 转语音
 bot.action('create_audio', async (ctx) => {
