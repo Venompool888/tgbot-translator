@@ -92,6 +92,8 @@ docker compose up -d
 ```
 ## 🌟 效果展示
 ![image](https://github.com/user-attachments/assets/a4046640-4bea-4f5f-b104-fc5fde6a3a40)
+![image](https://github.com/user-attachments/assets/ea0d3b3d-b487-44e8-b855-f1cc2f582c6b)
+
 
 
 ## 🤖🔩支持的 AI API 平台 (这部分内容完全由 GPT 生成, 目前只测试了 OpenAI 以及 Grok)
