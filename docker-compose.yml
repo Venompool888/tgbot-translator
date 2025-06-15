@@ -5,7 +5,7 @@ services:
     # ✅ 镜像地址：默认使用 Docker Hub 镜像（docker.io/venompool/tgbot-translator）
     # 👉 如果你想使用 GitHub Container Registry 镜像，请将下行改为：
     # image: ghcr.io/venompool888/tgbot-translator:latest
-    image: venompool/tgbot-translator
+    image: venompool/tgbot-translator:latest
     container_name: tgbot-translator
 
     environment:
