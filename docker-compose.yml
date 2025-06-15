@@ -18,6 +18,8 @@ services:
       - TTS_VOICE=nova                            # TTS 语音风格（如 nova, alloy, shimmer 等）
       - TTS_MODEL=tts-1-hd                        # TTS 模型（如 tts-1, tts-1-hd 等）
       - TTS_ENABLE=true                           # 是否启用 TTS 语音功能
+      - STT_API_KEY=你的stt api key               # STT 服务的 API 密钥
+      - STT_API_ENDPOINT=https://api.openai.com/v1/audio/transcriptions  # STT 接口地址
 
     volumes:
       - ./userConfig.json:/app/userConfig.json:ro  # 映射配置文件，只读挂载
