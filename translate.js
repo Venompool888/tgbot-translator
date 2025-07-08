@@ -29,7 +29,7 @@ async function translateWithGrok(text, targetLang, motherLang, systemPrompt) {
     },
     {
       role: 'user',
-      content: `翻译：${text}`,
+      content: `${text}`,
     },
   ];
 
@@ -49,6 +49,8 @@ async function translateWithGrok(text, targetLang, motherLang, systemPrompt) {
     );
 
     const translatedText = response.data.choices[0].message.content;
+    
+    console.log('翻译Prompt:', systemPrompt && systemPrompt.trim() ? systemPrompt : defaultPrompt)
     console.log('翻译结果:',translatedText)
   
     return translatedText;
