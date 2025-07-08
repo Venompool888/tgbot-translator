@@ -120,8 +120,9 @@ bot.on('text', async (ctx) => {
   const targetLang = userConfig[userId].targetlang;
   const motherLang = userConfig[userId].motherlang;
   const otherLang = userConfig[userId].otherlang;
+  const systemPrompt = userConfig[userId].systemprompt || '';
 
-  const result = await translateWithGrok(text, targetLang, motherLang);
+  const result = await translateWithGrok(text, targetLang, motherLang, systemPrompt); // 调用翻译函数
 
   // 存储
   sessions[userId] = {
